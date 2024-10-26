@@ -4,6 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Calculator {
+    private static String currentInput = "";
+    private static String operator = "";
+    private static double firstOperand = 0;
+
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -35,31 +39,18 @@ public class Calculator {
             "0", "+/-", ".", "+", "="
         };
 
-        for (int i = 0; i < buttonLabels.length; i++) {
-            JButton button = new JButton(buttonLabels[i]);
+        for (String label : buttonLabels) {
+            JButton button = new JButton(label);
             button.setFont(new Font("Arial", Font.BOLD, 24)); // 버튼 폰트
             button.setBackground(Color.WHITE); // 버튼 배경 색상
             button.setForeground(Color.BLUE); // 기본 글자 색상
             button.setFocusPainted(false); // 포커스 시 테두리 없애기
 
-            // 버튼 색상 조정
-            if (i % 5 == 4) { // 오른쪽 열
-                button.setForeground(Color.RED);
-            } else if (i % 5 == 3) { // 오른쪽 1열
-                button.setForeground(Color.RED);
-            }
-
             // 버튼 클릭 이벤트 처리
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (button.getText().equals("=")) {
-                        // 결과 계산 후 새로운 창에 결과 표시
-                        showResult(textField.getText());
-                    } else {
-                        // 디스플레이에 버튼 텍스트 추가
-                        textField.setText(textField.getText() + button.getText());
-                    }
+                    handleButtonPress(label, textField);
                 }
             });
 
@@ -73,18 +64,62 @@ public class Calculator {
         frame.setVisible(true);
     }
 
-    private static void showResult(String expression) {
-        // 계산 로직을 여기에 추가
-        // 간단한 예: 입력된 수식을 그대로 결과 창에 표시
-        JFrame resultFrame = new JFrame("결과");
-        resultFrame.setSize(300, 200);
-        resultFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        resultFrame.setLayout(new FlowLayout());
+    private static void handleButtonPress(String command, JTextField textField) {
+        switch (command) {
+            case "C":
+                currentInput = "";
+                operator = "";
+                firstOperand = 0;
+                textField.setText("");
+                break;
+            case "CE":
+                currentInput = "";
+                textField.setText("");
+                break;
+            case "🔙": // Backspace 버튼 처리
+                if (currentInput.length() > 0) {
+                    currentInput = currentInput.substring(0, currentInput.length() - 1);
+                    textField.setText(currentInput);
+                }
+                break;
+            case "=":
+                if (!currentInput.isEmpty() && !operator.isEmpty()) {
+                    double secondOperand = Double.parseDouble(currentInput);
+                    double result = performCalculation(firstOperand, secondOperand, operator);
+                    textField.setText(String.valueOf(result));
+                    currentInput = "";
+                    operator = "";
+                }
+                break;
+            case "+":
+            case "-":
+            case "*":
+            case "/":
+                if (!currentInput.isEmpty()) {
+                    firstOperand = Double.parseDouble(currentInput);
+                    operator = command;
+                    currentInput = "";
+                }
+                break;
+            default:
+                currentInput += command;
+                textField.setText(currentInput);
+                break;
+        }
+    }
 
-        JLabel resultLabel = new JLabel("결과: " + expression);
-        resultLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        resultFrame.add(resultLabel);
-
-        resultFrame.setVisible(true);
+    private static double performCalculation(double first, double second, String operator) {
+        switch (operator) {
+            case "+":
+                return first + second;
+            case "-":
+                return first - second;
+            case "*":
+                return first * second;
+            case "/":
+                return first / second;
+            default:
+                return second;
+        }
     }
 }
