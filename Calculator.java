@@ -40,7 +40,7 @@ public class Calculator {
             "AC", "CE", "", "", "🔙",
             "7", "8", "9", "/", "sqrt",
             "4", "5", "6", "*", "%",
-            "1", "2", "3", "-", "1/x",
+            "1", "2", "3", "-", "i/x",
             "0", "+/-", ".", "+", "="
         };
 
@@ -52,6 +52,11 @@ public class Calculator {
             button.setFocusPainted(false); // 포커스 시 테두리 없애기
             button.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1)); // 버튼 테두리 추가
             button.setPreferredSize(new Dimension(80, 80)); // 버튼 크기 조정
+
+            // 기호 버튼은 빨간색으로 설정
+            if ("i/xACCE/+-*%/x=sqrt".contains(label)) {
+                button.setForeground(Color.RED);
+            }
 
             // 버튼 클릭 이벤트 처리
             button.addActionListener(new ActionListener() {
@@ -122,7 +127,7 @@ public class Calculator {
                     resultDisplayed = true; // 결과가 표시됨
                 }
                 break;
-            case "1/x": // 역수 계산
+            case "i/x": // 역수 계산
                 if (!currentInput.isEmpty()) {
                     double value = Double.parseDouble(currentInput);
                     if (value == 0) {
