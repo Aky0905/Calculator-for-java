@@ -32,7 +32,7 @@ public class Calculator {
         panel.setLayout(new GridLayout(5, 5, 5, 5)); // 간격 추가
 
         String[] buttonLabels = {
-            "℀", "CE", "", "", "🔙",
+            "AC", "CE", "", "", "🔙",
             "7", "8", "9", "/", "sqrt",
             "4", "5", "6", "*", "%",
             "1", "2", "3", "-", "1/x",
@@ -66,15 +66,17 @@ public class Calculator {
 
     private static void handleButtonPress(String command, JTextField textField) {
         switch (command) {
-            case "C":
+            case "AC": // 모든 기록 지우기
                 currentInput = "";
                 operator = "";
                 firstOperand = 0;
                 textField.setText("");
                 break;
-            case "CE":
-                currentInput = "";
-                textField.setText("");
+            case "CE": // 마지막 입력 지우기
+                if (!currentInput.isEmpty()) {
+                    currentInput = "";
+                    textField.setText("");
+                }
                 break;
             case "🔙": // Backspace 버튼 처리
                 if (currentInput.length() > 0) {
