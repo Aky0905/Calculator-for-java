@@ -84,6 +84,26 @@ public class Calculator {
                     textField.setText(currentInput);
                 }
                 break;
+            case "+/-": // 음수/양수 전환
+                if (!currentInput.isEmpty()) {
+                    double value = Double.parseDouble(currentInput);
+                    value = -value; // 부호 변경
+                    currentInput = String.valueOf(value);
+                    textField.setText(currentInput);
+                }
+                break;
+            case "sqrt": // 제곱근 계산
+                if (!currentInput.isEmpty()) {
+                    double value = Double.parseDouble(currentInput);
+                    if (value < 0) {
+                        textField.setText("오류"); // 음수 제곱근에 대한 오류 처리
+                    } else {
+                        double sqrtValue = Math.sqrt(value);
+                        currentInput = String.valueOf(sqrtValue);
+                        textField.setText(currentInput);
+                    }
+                }
+                break;
             case "=":
                 if (!currentInput.isEmpty() && !operator.isEmpty()) {
                     double secondOperand = Double.parseDouble(currentInput);
