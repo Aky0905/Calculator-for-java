@@ -7,6 +7,7 @@ public class Calculator {
     private static String currentInput = "";
     private static String operator = "";
     private static double firstOperand = 0;
+    private static boolean resultDisplayed = false; // 결과가 표시되었는지 여부
 
     public static void main(String[] args) {
         try {
@@ -77,15 +78,16 @@ public class Calculator {
                 operator = "";
                 firstOperand = 0;
                 textField.setText("");
+                resultDisplayed = false; // 결과 표시 초기화
                 break;
             case "CE": // 마지막 입력 지우기
-                if (!currentInput.isEmpty()) {
+                if (!currentInput.isEmpty() && !resultDisplayed) { // 결과가 표시되지 않았을 때만
                     currentInput = "";
                     textField.setText("");
                 }
                 break;
             case "🔙": // Backspace 버튼 처리
-                if (currentInput.length() > 0) {
+                if (currentInput.length() > 0 && !resultDisplayed) { // 결과가 표시되지 않았을 때만
                     currentInput = currentInput.substring(0, currentInput.length() - 1);
                     textField.setText(currentInput);
                 }
@@ -107,6 +109,7 @@ public class Calculator {
                         double sqrtValue = Math.sqrt(value);
                         currentInput = String.valueOf(sqrtValue);
                         textField.setText(currentInput);
+                        resultDisplayed = true; // 결과가 표시됨
                     }
                 }
                 break;
@@ -116,6 +119,7 @@ public class Calculator {
                     double percentValue = value / 100; // 백분율 계산
                     currentInput = String.valueOf(percentValue);
                     textField.setText(currentInput);
+                    resultDisplayed = true; // 결과가 표시됨
                 }
                 break;
             case "1/x": // 역수 계산
@@ -127,6 +131,7 @@ public class Calculator {
                         double reciprocalValue = 1 / value;
                         currentInput = String.valueOf(reciprocalValue);
                         textField.setText(currentInput);
+                        resultDisplayed = true; // 결과가 표시됨
                     }
                 }
                 break;
@@ -137,6 +142,7 @@ public class Calculator {
                     textField.setText(String.valueOf(result));
                     currentInput = String.valueOf(result); // 결과를 currentInput에 저장
                     operator = ""; // 연산자 초기화
+                    resultDisplayed = true; // 결과가 표시됨
                 }
                 break;
             case "+":
@@ -147,11 +153,13 @@ public class Calculator {
                     firstOperand = Double.parseDouble(currentInput);
                     operator = command;
                     currentInput = "";
+                    resultDisplayed = false; // 새로운 계산을 위한 초기화
                 }
                 break;
             default:
                 currentInput += command;
                 textField.setText(currentInput);
+                resultDisplayed = false; // 결과가 아닌 경우
                 break;
         }
     }
