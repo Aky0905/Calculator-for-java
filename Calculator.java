@@ -87,8 +87,8 @@ public class Calculator {
                     double secondOperand = Double.parseDouble(currentInput);
                     double result = performCalculation(firstOperand, secondOperand, operator);
                     textField.setText(String.valueOf(result));
-                    currentInput = "";
-                    operator = "";
+                    currentInput = String.valueOf(result); // 결과를 currentInput에 저장
+                    operator = ""; // 연산자 초기화
                 }
                 break;
             case "+":
