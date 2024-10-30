@@ -19,17 +19,21 @@ public class Calculator {
         frame.setSize(400, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
+        frame.getContentPane().setBackground(Color.LIGHT_GRAY); // 배경색 변경
 
         // 디스플레이 텍스트 필드
         JTextField textField = new JTextField();
         textField.setEditable(false);
-        textField.setFont(new Font("Arial", Font.PLAIN, 36));
+        textField.setFont(new Font("Arial", Font.BOLD, 36));
         textField.setHorizontalAlignment(SwingConstants.RIGHT);
+        textField.setBackground(Color.WHITE);
+        textField.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // 여백 추가
         frame.add(textField, BorderLayout.NORTH);
 
         // 버튼 패널
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(5, 5, 5, 5)); // 간격 추가
+        panel.setBackground(Color.GRAY); // 패널 배경색 변경
 
         String[] buttonLabels = {
             "AC", "CE", "", "", "🔙",
@@ -45,6 +49,8 @@ public class Calculator {
             button.setBackground(Color.WHITE); // 버튼 배경 색상
             button.setForeground(Color.BLUE); // 기본 글자 색상
             button.setFocusPainted(false); // 포커스 시 테두리 없애기
+            button.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1)); // 버튼 테두리 추가
+            button.setPreferredSize(new Dimension(80, 80)); // 버튼 크기 조정
 
             // 버튼 클릭 이벤트 처리
             button.addActionListener(new ActionListener() {
@@ -100,6 +106,26 @@ public class Calculator {
                     } else {
                         double sqrtValue = Math.sqrt(value);
                         currentInput = String.valueOf(sqrtValue);
+                        textField.setText(currentInput);
+                    }
+                }
+                break;
+            case "%": // 백분율 계산
+                if (!currentInput.isEmpty()) {
+                    double value = Double.parseDouble(currentInput);
+                    double percentValue = value / 100; // 백분율 계산
+                    currentInput = String.valueOf(percentValue);
+                    textField.setText(currentInput);
+                }
+                break;
+            case "1/x": // 역수 계산
+                if (!currentInput.isEmpty()) {
+                    double value = Double.parseDouble(currentInput);
+                    if (value == 0) {
+                        textField.setText("오류"); // 0의 역수에 대한 오류 처리
+                    } else {
+                        double reciprocalValue = 1 / value;
+                        currentInput = String.valueOf(reciprocalValue);
                         textField.setText(currentInput);
                     }
                 }
