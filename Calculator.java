@@ -3,12 +3,33 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Calculator 클래스는 기본적인 계산기 기능을 제공하는 GUI 애플리케이션입니다.
+ * 사용자는 숫자와 연산자를 입력하여 다양한 계산을 수행할 수 있습니다.
+ * 
+ * @author Kim Jae Yeong (jykim@example.com)
+ * @version 1.0
+ * @since 2024-10-31
+ * @see wrtn
+ * @created 2024-10-27
+ * @lastModified 2024-10-31
+ * 
+ * @changelog
+ * <ul>
+ *   <li>2024-10-24: 최초 생성 (Kim Jae Yeong)</li>
+ * </ul>
+ */
 public class Calculator {
-    private static String currentInput = "";
-    private static String operator = "";
-    private static double firstOperand = 0;
+    private static String currentInput = ""; // 현재 입력된 숫자
+    private static String operator = ""; // 현재 선택된 연산자
+    private static double firstOperand = 0; // 첫 번째 피연산자
     private static boolean resultDisplayed = false; // 결과가 표시되었는지 여부
 
+    /**
+     * 프로그램의 주 진입점입니다. 계산기 GUI를 생성하고 표시합니다.
+     *
+     * @param args 커맨드 라인 인수 (사용되지 않음)
+     */
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -76,6 +97,12 @@ public class Calculator {
         frame.setVisible(true);
     }
 
+    /**
+     * 버튼 클릭 시 호출되는 메서드입니다. 입력된 명령에 따라 계산기를 조작합니다.
+     *
+     * @param command 클릭된 버튼의 명령
+     * @param textField 현재 입력값을 표시하는 텍스트 필드
+     */
     private static void handleButtonPress(String command, JTextField textField) {
         switch (command) {
             case "AC": // 모든 기록 지우기
@@ -169,6 +196,14 @@ public class Calculator {
         }
     }
 
+    /**
+     * 두 숫자와 연산자를 받아 계산을 수행하고 결과를 반환합니다.
+     *
+     * @param first 첫 번째 피연산자
+     * @param second 두 번째 피연산자
+     * @param operator 수행할 연산자
+     * @return 계산 결과
+     */
     private static double performCalculation(double first, double second, String operator) {
         switch (operator) {
             case "+":
